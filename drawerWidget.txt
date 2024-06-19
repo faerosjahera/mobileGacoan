@@ -1,0 +1,154 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:gacoan/service/auth_service/auth_service.dart';
+
+class DrawerWidget extends StatefulWidget {
+  const DrawerWidget({super.key});
+
+  @override
+  _DrawerWidgetState createState() => _DrawerWidgetState();
+}
+
+class _DrawerWidgetState extends State<DrawerWidget> {
+  late Future<User?> _currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    // Periksa apakah pengguna sudah login sebelum memanggil getCurrentUser()
+    if (AuthService().isLoggedIn()) {
+      _currentUser = AuthService().getCurrentUser();
+    } else {
+      _currentUser = Future.value(null);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: FutureBuilder<User?>(
+        future: _currentUser,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data == null) {
+            return const Center(child: Text('No user data'));
+          } else {
+            final user = snapshot.data!;
+            return ListView(
+              children: [
+                DrawerHeader(
+                  padding: EdgeInsets.zero,
+                  child: UserAccountsDrawerHeader(
+                    decoration: const BoxDecoration(
+                      color: Colors.pink,
+                    ),
+                    accountName: Text(
+                      user.name,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    accountEmail: Text(
+                      user.email,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    currentAccountPicture: const Padding(
+                      padding: EdgeInsets.only(bottom: 10.0),
+                      child: CircleAvatar(
+                        radius: 30,
+                        backgroundImage: AssetImage('profile.jpg'),
+                      ),
+                    ),
+                  ),
+                ),
+                ListTile(
+                  leading: const Icon(
+                    CupertinoIcons.home,
+                    color: Colors.black,
+                  ),
+                  title: const Text(
+                    'Home',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, 'homePage');
+                  },
+                ),
+                const ListTile(
+                  leading: Icon(
+                    CupertinoIcons.person,
+                    color: Colors.black,
+                  ),
+                  title: Text(
+                    'Profile',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  leading: const Icon(
+                    CupertinoIcons.cart_fill,
+                    color: Colors.black,
+                  ),
+                  title: const Text(
+                    'My Orders',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, 'cartPage');
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.exit_to_app,
+                    color: Colors.black,
+                  ),
+                  title: const Text(
+                    'Log Out',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onTap: () async {
+                    bool success = await AuthService().logout();
+                    if (success) {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        'loginPage',
+                        (route) => false,
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Failed to log out. Please try again.'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ],
+            );
+          }
+        },
+      ),
+    );
+  }
+}
+

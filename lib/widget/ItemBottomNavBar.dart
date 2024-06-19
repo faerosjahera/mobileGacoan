@@ -2,7 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ItemBottomNavBar extends StatelessWidget {
-  const ItemBottomNavBar({super.key});
+  final double price;
+  final int quantity;
+  final VoidCallback onAddToCart;
+
+  const ItemBottomNavBar({
+    super.key, 
+    required this.price, 
+    required this.quantity, 
+    required this.onAddToCart,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,37 +22,36 @@ class ItemBottomNavBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Row(
-              // crossAxisAlignment: CrossAxisAlignment.start,
-              // mainAxisAlignment: MainAxisAlignment.center,
+            Row(
               children: [
-                Text(
+                const Text(
                   "Price:",
                   style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(width: 15),
+                const SizedBox(width: 15),
                 Text(
-                  "Rp.13.786",
-                  style: TextStyle(
-                      fontSize: 19,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red),
+                  "Rp.${(price * quantity).toStringAsFixed(0)}",
+                  style: const TextStyle(
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.pink,
+                  ),
                 ),
               ],
             ),
             OutlinedButton.icon(
-              onPressed: () {
-                Navigator.pushNamed(context, 'cartPage');
-              },
+              onPressed: onAddToCart,
               style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.red),
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
+                backgroundColor: MaterialStateProperty.all(Colors.pink),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
-                  padding: MaterialStateProperty.all(
-                      const EdgeInsets.symmetric(vertical: 18, horizontal: 20))),
+                ),
+                padding: MaterialStateProperty.all(
+                  const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
+                ),
+              ),
               icon: const Icon(
                 CupertinoIcons.cart_badge_plus,
                 color: Colors.white,
@@ -52,7 +60,6 @@ class ItemBottomNavBar extends StatelessWidget {
                 'Add To Cart',
                 style: TextStyle(color: Colors.white),
               ),
-              
             ),
           ],
         ),

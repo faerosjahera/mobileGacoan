@@ -2,11 +2,11 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gacoan/widget/AppBarWidget.dart';
-import 'package:gacoan/widget/CategoriesWidget.dart';
-import 'package:gacoan/widget/DrawerWidget.dart';
-import 'package:gacoan/widget/MisiWidget.dart';
-import 'package:gacoan/widget/PopularWidget.dart';
+import 'package:Gacoans/widget/AppBarWidget.dart';
+import 'package:Gacoans/widget/CategoriesWidget.dart';
+import 'package:Gacoans/widget/DrawerWidget.dart';
+import 'package:Gacoans/widget/MisiWidget.dart';
+import 'package:Gacoans/widget/PopularWidget.dart';
 
 // ignore: use_key_in_widget_constructors
 class HomePage extends StatelessWidget{
@@ -122,7 +122,7 @@ class HomePage extends StatelessWidget{
         ]),
         child: FloatingActionButton(
           onPressed: (){
-            Navigator.pushNamed(context, 'cartPage');
+            Navigator.pushNamed(context, '/cartPage');
           },
           child: const Icon(
             CupertinoIcons.cart,

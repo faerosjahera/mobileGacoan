@@ -2,6 +2,11 @@ import 'package:dio/dio.dart';
 
 class AuthService {
   static String? token;
+  static User? currentUser;
+
+  bool isLoggedIn() {
+    return token != null && token!.isNotEmpty;
+  }
 
   Future<bool> login({
     required String email,
@@ -52,7 +57,6 @@ class AuthService {
           "password": password,
         },
       );
-      // Jika response status adalah 200 OK, anggaplah registrasi berhasil
       return response.statusCode == 200;
     } catch (e) {
       print('Error in register: $e');
@@ -62,21 +66,72 @@ class AuthService {
 
   Future<bool> logout() async {
     try {
-      var response = await Dio().get(
+      var response = await Dio().post(
         "http://127.0.0.1:8000/api/logout",
         options: Options(
           headers: {
             "Content-type": "application/json",
-            "Authorization":
-                "Bearer $token", // Menggunakan token untuk autentikasi
+            "Authorization": "Bearer $token",
           },
         ),
       );
-      // Jika response status adalah 200 OK, anggaplah logout berhasil
-      return response.statusCode == 200;
+      if (response.statusCode == 200) {
+        clearToken();
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       print('Error in logout: $e');
       return false;
     }
+  }
+
+  void clearToken() {
+    token = null;
+    currentUser = null; // Clear currentUser when token is cleared
+  }
+
+  Future<User?> getCurrentUser() async {
+    try {
+      var response = await Dio().get(
+        "http://127.0.0.1:8000/api/user",
+        options: Options(
+          headers: {
+            "Content-type": "application/json",
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        print('Response data: ${response.data}');
+        if (response.data != null && response.data['data'] != null) {
+          return User.fromJson(response.data['data']);
+        } else {
+          print('No user data in response');
+          return null;
+        }
+      } else {
+        print('Failed response status: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error in getCurrentUser: $e');
+      throw Exception('Failed to get current user: $e');
+    }
+  }
+
+}
+class User {
+  final String name;
+  final String email;
+
+  User({required this.name, required this.email});
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      name: json['name'],
+      email: json['email'],
+    );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gacoan/HomePage.dart';
-import 'package:gacoan/service/auth_service/auth_serive.dart';
+import 'package:Gacoans/service/auth_service/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key});
@@ -32,13 +31,16 @@ class _LoginPageState extends State<LoginPage> {
 
     try {
       // Panggil API untuk memverifikasi login
-      bool success = await AuthService().login(email: email, password: password);
+      bool success =
+          await AuthService().login(email: email, password: password);
 
       if (success) {
-        // Jika login berhasil, navigasi ke halaman beranda (homepage)
-        Navigator.pushReplacement(
+        // Jika login berhasil, navigasi ke halaman beranda (homepage) dan hapus semua rute lainnya
+        Navigator.pushNamedAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => HomePage()), // Ganti 'HomePage()' dengan halaman beranda Anda
+          '/homePage', // Ganti '/homePage' dengan nama rute beranda Anda
+          (route) =>
+              false, // Fungsi ini memastikan untuk menghapus semua rute lainnya
         );
       } else {
         // Jika login gagal, tampilkan pesan kesalahan
@@ -191,8 +193,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget buildSignUpBtn() {
     return GestureDetector(
       onTap: () {
-       Navigator.pushNamed(context, 'registerPage');
-    },
+        Navigator.pushNamed(context, '/registerPage');
+      },
       child: RichText(
         text: const TextSpan(
           children: [

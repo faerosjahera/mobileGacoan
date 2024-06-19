@@ -27,7 +27,7 @@ class WelcomeScreen extends StatelessWidget {
           children: [
             const Padding(
               padding: EdgeInsets.only(top: 200.0),
-              child: Image(image: AssetImage('logo.png')),
+              child: Image(image: AssetImage('assets/logo.png')),
             ),
             const SizedBox(height: 70,
             ),
@@ -38,7 +38,7 @@ class WelcomeScreen extends StatelessWidget {
             const SizedBox(height: 30,),
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, 'loginPage');
+                Navigator.pushNamed(context, '/loginPage');
               },
               child: Container(
                 height: 53,
@@ -60,7 +60,7 @@ class WelcomeScreen extends StatelessWidget {
             const SizedBox(height: 20,),
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, 'registerPage');
+                Navigator.pushNamed(context, '/registerPage');
               },
               child: Container(
                 height: 53,

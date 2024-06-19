@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:gacoan/CartPage.dart';
-import 'package:gacoan/HomePage.dart';
-import 'package:gacoan/ItemPage.dart';
-import 'package:gacoan/LoginPage.dart';
-import 'package:gacoan/RegisterPage.dart';
-import 'package:gacoan/menu/gacoan.dart';
-import 'package:gacoan/menu/hompimpah.dart';
-import 'package:gacoan/menu/suit.dart';
-import 'package:gacoan/welcomeScreen.dart';
+import 'package:Gacoans/CartPage.dart';
+import 'package:Gacoans/HomePage.dart';
+import 'package:Gacoans/LoginPage.dart';
+import 'package:Gacoans/RegisterPage.dart';
+import 'package:Gacoans/paymentPage.dart';
+import 'package:Gacoans/successPage.dart';
+import 'package:Gacoans/welcomeScreen.dart';
+import 'package:provider/provider.dart';
+
+import 'service/providers/cart_providers.dart';
 
 
 
 void main() {
-  runApp(const MyApp());
+ runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => CartProvider()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -28,15 +37,15 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: const Color(0xFFF5F5F3),
       ),
       routes: {
-        '/' :  (context) =>  WelcomeScreen(),
-        'registerPage' :  (context) => const RegisterPage(),
-        'loginPage' :  (context) => const LoginPage(),
-        'homePage' :  (context) => HomePage(),
-        'cartPage' :  (context) => const CartPage(),
-        'itemPage' :  (context) => const ItemPage(),
-        'suitPage' :  (context) => const SuitPage(),
-        'gacoanPage' :  (context) => const GacoanPage(),
-        'hompimpahPage' :  (context) => const HompimpahPage(),
+        '/' :  (context) => const WelcomeScreen(),      
+        '/registerPage' :  (context) => const RegisterPage(),
+        '/loginPage' :  (context) => const LoginPage(),
+        '/homePage' :  (context) => HomePage(),
+        '/cartPage': (context) => const CartPage(),
+        // 'productPage' :  (context) => const ItemPage(),
+        // 'suitPage' :  (context) => const SuitPage(),
+        // 'gacoanPage' :  (context) => const GacoanPage(),
+        // 'hompimpahPage' :  (context) => const HompimpahPage(),
       },
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );

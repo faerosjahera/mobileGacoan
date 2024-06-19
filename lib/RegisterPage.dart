@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gacoan/HomePage.dart';
-import 'package:gacoan/service/auth_service/auth_serive.dart';
+import 'package:Gacoans/LoginPage.dart';
+import 'package:Gacoans/service/auth_service/auth_service.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key});
@@ -53,7 +53,7 @@ class _RegisterPageState extends State<RegisterPage> {
         // Jika registrasi berhasil, navigasi ke halaman beranda (homepage)
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomePage()),
+          MaterialPageRoute(builder: (context) => LoginPage()),
         );
       } else {
         // Jika registrasi gagal, tampilkan pesan kesalahan

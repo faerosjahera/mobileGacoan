@@ -75,7 +75,7 @@ class MisiWidget extends StatelessWidget{
                                 itemPadding: EdgeInsets.symmetric(horizontal: 4), 
                                 itemBuilder: (context, _) => Icon(
                                   Icons.star,
-                                  color: Colors.red,
+                                  color: Colors.pink,
                                 ),
                                 onRatingUpdate: (rating) {},
                               ),
@@ -83,7 +83,7 @@ class MisiWidget extends StatelessWidget{
                                 Text("Rp.0",
                                 style: TextStyle(
                                   fontSize: 20,
-                                  color: Colors.red,
+                                  color: Colors.pink,
                                   fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -98,12 +98,12 @@ class MisiWidget extends StatelessWidget{
                             children: [
                               Icon(
                                 Icons.favorite_border,
-                                color: Colors.red,
+                                color: Colors.pink,
                                 size: 25,
                               ),
                               Icon(
                                 CupertinoIcons.cart,
-                                color: Colors.red,
+                                color: Colors.pink,
                                 size: 25,
                               ),
                             ],
@@ -174,7 +174,7 @@ class MisiWidget extends StatelessWidget{
                                 itemPadding: EdgeInsets.symmetric(horizontal: 4),
                                 itemBuilder: (context, index) => const Icon(
                                   Icons.star,
-                                  color: Colors.red,
+                                  color: Colors.pink,
                                   ),
                                 onRatingUpdate: (rating) {},
                                 ),
@@ -182,7 +182,7 @@ class MisiWidget extends StatelessWidget{
                                 Text("Rp.0",
                                 style: TextStyle(
                                   fontSize: 20,
-                                  color: Colors.red,
+                                  color: Colors.pink,
                                   fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -197,12 +197,12 @@ class MisiWidget extends StatelessWidget{
                             children: [
                               Icon(
                                 Icons.favorite_border,
-                                color: Colors.red,
+                                color: Colors.pink,
                                 size: 25,
                               ),
                               Icon(
                                 CupertinoIcons.cart,
-                                color: Colors.red,
+                                color: Colors.pink,
                                 size: 25,
                               ),
                             ],
@@ -273,7 +273,7 @@ class MisiWidget extends StatelessWidget{
                                 itemPadding: EdgeInsets.symmetric(horizontal: 4),
                                 itemBuilder: (context, index) => const Icon(
                                   Icons.star,
-                                  color: Colors.red,
+                                  color: Colors.pink,
                                   ),
                                 onRatingUpdate: (rating) {},
                                 ),
@@ -281,7 +281,7 @@ class MisiWidget extends StatelessWidget{
                                 Text("Rp.0",
                                 style: TextStyle(
                                   fontSize: 20,
-                                  color: Colors.red,
+                                  color: Colors.pink,
                                   fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -296,12 +296,12 @@ class MisiWidget extends StatelessWidget{
                             children: [
                               Icon(
                                 Icons.favorite_border,
-                                color: Colors.red,
+                                color: Colors.pink,
                                 size: 25,
                               ),
                               Icon(
                                 CupertinoIcons.cart,
-                                color: Colors.red,
+                                color: Colors.pink,
                                 size: 25,
                               ),
                             ],

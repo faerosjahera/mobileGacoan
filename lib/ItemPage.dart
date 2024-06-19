@@ -2,27 +2,51 @@ import 'package:clippy_flutter/arc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:gacoan/widget/AppBarWidget.dart';
-import 'package:gacoan/widget/DrawerWidget.dart';
-import 'package:gacoan/widget/ItemBottomNavBar.dart';
+import 'package:provider/provider.dart';
+import 'package:Gacoans/service/models/product.dart';
+import 'package:Gacoans/service/providers/cart_providers.dart';
+// import 'package:Gacoans/widget/AppBarWidget.dart';
+import 'package:Gacoans/widget/DrawerWidget.dart';
+import 'package:Gacoans/widget/ItemBottomNavBar.dart';
 
-class ItemPage extends StatelessWidget {
-  const ItemPage({super.key});
+class ItemPage extends StatefulWidget {
+  final Product product;
+
+  const ItemPage({super.key, required this.product});
+
+  @override
+  _ItemPageState createState() => _ItemPageState();
+}
+
+class _ItemPageState extends State<ItemPage> {
+  int _quantity = 1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.pink,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: const Text('Product Details',style: TextStyle(color: Colors.white)),
+      ),
       body: Padding(
         padding: const EdgeInsets.only(top: 5),
         child: ListView(
           children: [
-            const AppBarWidget(),
             Padding(
               padding: const EdgeInsets.all(16),
-              child: Image.asset(
-                'miesuit.png',
+              child: Image.network(
+                'http://127.0.0.1:8000/${widget.product.photo}',
                 height: 300,
-                // width: double.infinity,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(Icons.error, size: 300);
+                },
               ),
             ),
             Arc(
@@ -42,22 +66,21 @@ class ItemPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             RatingBar.builder(
-                              initialRating: 4,
+                              initialRating: 4, // Change this to the product's actual rating if available
                               minRating: 1,
                               direction: Axis.horizontal,
                               itemCount: 5,
                               itemSize: 18,
-                              itemPadding:
-                                  const EdgeInsets.symmetric(horizontal: 4),
+                              itemPadding: const EdgeInsets.symmetric(horizontal: 4),
                               itemBuilder: (context, _) => const Icon(
                                 Icons.star,
-                                color: Colors.red,
+                                color: Colors.pink,
                               ),
                               onRatingUpdate: (rating) {},
                             ),
-                            const Text(
-                              "Rp.13.387",
-                              style: TextStyle(
+                            Text(
+                              "Rp.${widget.product.price}",
+                              style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -73,41 +96,48 @@ class ItemPage extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              "Mie Suit",
-                              style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
+                            Expanded(
+                              child: Text(
+                                widget.product.name,
+                                style: const TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                             Container(
-                              width: 90,
-                              padding: const EdgeInsets.all(5),
+                              width: 120,
+                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                               decoration: BoxDecoration(
-                                color: Colors.red,
+                                color: Colors.pink,
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: const Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Icon(
-                                    CupertinoIcons.minus,
-                                    color: Colors.white,
-                                    size: 20,
+                                  IconButton(
+                                    icon: const Icon(CupertinoIcons.minus, color: Colors.white, size: 20),
+                                    onPressed: () {
+                                      setState(() {
+                                        if (_quantity > 1) _quantity--;
+                                      });
+                                    },
                                   ),
                                   Text(
-                                    '1',
-                                    style: TextStyle(
+                                    '$_quantity',
+                                    style: const TextStyle(
                                       fontSize: 16,
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  Icon(
-                                    CupertinoIcons.plus,
-                                    color: Colors.white,
-                                    size: 20,
+                                  IconButton(
+                                    icon: const Icon(CupertinoIcons.plus, color: Colors.white, size: 20),
+                                    onPressed: () {
+                                      setState(() {
+                                        _quantity++;
+                                      });
+                                    },
                                   ),
                                 ],
                               ),
@@ -115,13 +145,13 @@ class ItemPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
                           vertical: 10,
                         ),
                         child: Text(
-                          "Deskripsi Mie suittt djnjdjiqwjdowkjdiwqd",
-                          style: TextStyle(fontSize: 16),
+                          widget.product.description,
+                          style: const TextStyle(fontSize: 16),
                           textAlign: TextAlign.justify,
                         ),
                       ),
@@ -145,11 +175,11 @@ class ItemPage extends StatelessWidget {
                                   padding: EdgeInsets.symmetric(horizontal: 5),
                                   child: Icon(
                                     CupertinoIcons.clock,
-                                    color: Colors.red,
+                                    color: Colors.pink,
                                   ),
                                 ),
                                 Text(
-                                  "30 Minuite",
+                                  "30 Minute",
                                   style: TextStyle(
                                     fontSize: 16,
                                   ),
@@ -165,12 +195,23 @@ class ItemPage extends StatelessWidget {
               ),
             ),
           ],
-        ), 
+        ),
       ),
-
       drawer: const DrawerWidget(),
-      bottomNavigationBar: const ItemBottomNavBar(),
-      
+      bottomNavigationBar: ItemBottomNavBar(
+        price: widget.product.price,
+        quantity: _quantity,
+        onAddToCart: () {
+          // Add product to cart logic
+          final cartProvider = Provider.of<CartProvider>(context, listen: false);
+          cartProvider.addItem(widget.product, _quantity);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Product added to cart!'),
+            ),
+          );
+        },
+      ),
     );
   }
 }
